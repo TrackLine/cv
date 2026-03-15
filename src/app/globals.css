@@ -4,65 +4,67 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 224 71.4% 4.1%;
+    --background: 210 20% 99%;
+    --foreground: 215 30% 8%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 224 71.4% 4.1%;
+    --card: 210 20% 99%;
+    --card-foreground: 215 30% 8%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 224 71.4% 4.1%;
+    --popover: 210 20% 99%;
+    --popover-foreground: 215 30% 8%;
 
-    --primary: 220.9 39.3% 11%;
-    --primary-foreground: 210 20% 98%;
+    --primary: 215 35% 12%;
+    --primary-foreground: 195 15% 96%;
 
-    --secondary: 220 14.3% 95.9%;
-    --secondary-foreground: 220.9 39.3% 11%;
+    --secondary: 200 18% 94%;
+    --secondary-foreground: 215 35% 12%;
 
-    --muted: 220 14.3% 95.9%;
-    --muted-foreground: 220 8.9% 46.1%;
+    --muted: 200 18% 94%;
+    --muted-foreground: 210 12% 44%;
 
-    --accent: 220 14.3% 95.9%;
-    --accent-foreground: 220.9 39.3% 11%;
+    --accent: 185 40% 91%;
+    --accent-foreground: 215 35% 12%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 20% 98%;
 
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 224 71.4% 4.1%;
+    --border: 200 16% 88%;
+    --input: 200 16% 88%;
+    --ring: 192 94% 43%;
+    --teal: 192 94% 43%;
 
-    --radius: 0.5rem;
+    --radius: 0.4rem;
   }
 
   .dark {
-    --background: 224 71.4% 4.1%;
-    --foreground: 210 20% 98%;
+    --background: 215 30% 5%;
+    --foreground: 195 15% 94%;
 
-    --card: 224 71.4% 4.1%;
-    --card-foreground: 210 20% 98%;
+    --card: 215 30% 5%;
+    --card-foreground: 195 15% 94%;
 
-    --popover: 224 71.4% 4.1%;
-    --popover-foreground: 210 20% 98%;
+    --popover: 215 30% 5%;
+    --popover-foreground: 195 15% 94%;
 
-    --primary: 210 20% 98%;
-    --primary-foreground: 220.9 39.3% 11%;
+    --primary: 195 15% 94%;
+    --primary-foreground: 215 35% 12%;
 
-    --secondary: 215 27.9% 16.9%;
-    --secondary-foreground: 210 20% 98%;
+    --secondary: 215 25% 12%;
+    --secondary-foreground: 195 15% 94%;
 
-    --muted: 215 27.9% 16.9%;
-    --muted-foreground: 217.9 10.6% 64.9%;
+    --muted: 215 25% 12%;
+    --muted-foreground: 210 12% 58%;
 
-    --accent: 215 27.9% 16.9%;
-    --accent-foreground: 210 20% 98%;
+    --accent: 185 30% 14%;
+    --accent-foreground: 185 55% 70%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 20% 98%;
 
-    --border: 215 27.9% 16.9%;
-    --input: 215 27.9% 16.9%;
-    --ring: 216 12.2% 83.9%;
+    --border: 215 25% 14%;
+    --input: 215 25% 14%;
+    --ring: 192 94% 55%;
+    --teal: 192 94% 55%;
   }
 }
 
@@ -95,9 +97,79 @@
 }
 
 @media print {
+  /* Reset animations */
   .animate-fade-in {
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;
+  }
+
+  /* Force light theme CSS variables regardless of dark mode */
+  :root,
+  .dark {
+    --background: 210 20% 99%;
+    --foreground: 215 30% 8%;
+    --card: 210 20% 99%;
+    --card-foreground: 215 30% 8%;
+    --primary: 215 35% 12%;
+    --primary-foreground: 195 15% 96%;
+    --secondary: 200 18% 94%;
+    --secondary-foreground: 215 35% 12%;
+    --muted: 200 18% 94%;
+    --muted-foreground: 210 12% 44%;
+    --accent: 185 40% 91%;
+    --accent-foreground: 215 35% 12%;
+    --border: 200 16% 88%;
+    --input: 200 16% 88%;
+    --ring: 192 94% 43%;
+  }
+
+  /* Page setup */
+  @page {
+    margin: 1.5cm 1.5cm;
+    size: A4;
+  }
+
+  html,
+  body {
+    background: white !important;
+    color: #111 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Reset borders, shadows and rings */
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+    outline: none !important;
+    border-color: #e5e7eb !important;
+    --tw-ring-shadow: none !important;
+    --tw-ring-offset-shadow: none !important;
+  }
+
+  /* Remove ring from avatar for print */
+  img {
+    max-width: 100% !important;
+  }
+
+  /* Ensure badges are legible */
+  .badge,
+  [class*="badge"] {
+    border: 1px solid #ccc !important;
+    background: #f5f5f5 !important;
+    color: #333 !important;
+  }
+
+  /* Prevent cards and work items from splitting across pages */
+  article {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Keep section headings with their content */
+  h2 {
+    break-after: avoid;
+    page-break-after: avoid;
   }
 }

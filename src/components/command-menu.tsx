@@ -2,6 +2,7 @@
 
 import { CommandIcon } from "lucide-react";
 import * as React from "react";
+import { useTheme } from "next-themes";
 import {
   CommandDialog,
   CommandEmpty,
@@ -20,6 +21,7 @@ interface Props {
 export const CommandMenu = ({ links }: Props) => {
   const [open, setOpen] = React.useState(false);
   const [isMac, setIsMac] = React.useState(false);
+  const { resolvedTheme, setTheme } = useTheme();
 
   React.useEffect(() => {
     setIsMac(window.navigator.userAgent.includes("Mac"));
@@ -39,7 +41,7 @@ export const CommandMenu = ({ links }: Props) => {
     <>
       <p className="fixed bottom-0 left-0 right-0 hidden bg-gradient-to-t from-[hsl(var(--background))] to-transparent p-1 pt-6 text-center text-sm text-muted-foreground xl:block print:hidden">
         Press{" "}
-        <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
+        <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border border-cyan-500/40 bg-cyan-500/10 px-1.5 font-mono text-[10px] font-medium text-cyan-500 opacity-100">
           <span className="text-xs">{isMac ? "⌘" : "Ctrl"}</span>+J
         </kbd>{" "}
         to open the command menu
@@ -48,7 +50,7 @@ export const CommandMenu = ({ links }: Props) => {
         onClick={() => setOpen((open) => !open)}
         variant="outline"
         size="icon"
-        className="fixed bottom-4 right-4 flex rounded-full shadow-2xl xl:hidden print:hidden"
+        className="fixed bottom-4 right-4 flex rounded-full shadow-2xl transition-colors hover:border-cyan-500/60 hover:text-cyan-500 xl:hidden print:hidden"
       >
         <CommandIcon className="my-6 size-6" />
       </Button>
@@ -60,7 +62,14 @@ export const CommandMenu = ({ links }: Props) => {
             <CommandItem
               onSelect={() => {
                 setOpen(false);
-                window.print();
+                const previousTheme = resolvedTheme ?? "dark";
+                setTheme("light");
+                const afterPrint = () => {
+                  setTheme(previousTheme);
+                  window.removeEventListener("afterprint", afterPrint);
+                };
+                window.addEventListener("afterprint", afterPrint);
+                setTimeout(() => window.print(), 80);
               }}
             >
               <span>Print</span>

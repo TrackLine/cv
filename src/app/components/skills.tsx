@@ -1,50 +1,41 @@
 import { Badge } from "@/components/ui/badge";
-import { Section } from "@/components/ui/section";
 import { cn } from "@/lib/utils";
 
 type Skills = readonly string[];
-
-interface SkillsListProps {
-  skills: Skills;
-  className?: string;
-}
-
-/**
- * Renders a list of skills as badges
- */
-function SkillsList({ skills, className }: SkillsListProps) {
-  return (
-    <ul
-      className={cn("flex list-none flex-wrap gap-1 p-0", className)}
-      aria-label="List of skills"
-    >
-      {skills.map((skill) => (
-        <li key={skill}>
-          <Badge className="print:text-[10px]" aria-label={`Skill: ${skill}`}>
-            {skill}
-          </Badge>
-        </li>
-      ))}
-    </ul>
-  );
-}
 
 interface SkillsProps {
   skills: Skills;
   className?: string;
 }
 
-/**
- * Skills section component
- * Displays a list of professional skills as badges
- */
 export function Skills({ skills, className }: SkillsProps) {
   return (
-    <Section className={className}>
-      <h2 className="text-xl font-bold" id="skills-section">
+    <section
+      className={cn("space-y-3", className)}
+      aria-labelledby="skills-section"
+    >
+      <h2
+        className="text-xs font-semibold uppercase tracking-wider text-foreground/50 print:text-[9px]"
+        id="skills-section"
+      >
         Skills
       </h2>
-      <SkillsList skills={skills} />
-    </Section>
+      <ul
+        className="flex list-none flex-wrap gap-1.5 p-0"
+        aria-label="List of skills"
+      >
+        {skills.map((skill) => (
+          <li key={skill}>
+            <Badge
+              variant="secondary"
+              className="px-2 py-0.5 text-xs font-normal transition-colors hover:border-cyan-500/50 hover:text-cyan-500 print:text-[8px]"
+              aria-label={`Skill: ${skill}`}
+            >
+              {skill}
+            </Badge>
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 }

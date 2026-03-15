@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { CommandMenu } from "@/components/command-menu";
+import { PrintButton } from "@/components/print-button";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { RESUME_DATA } from "@/data/resume-data";
 import { generateResumeStructuredData } from "@/lib/structured-data";
 import { Education } from "./components/education";
@@ -10,33 +12,17 @@ import { Summary } from "./components/summary";
 import { WorkExperience } from "./components/work-experience";
 
 export const metadata: Metadata = {
-  title: `${RESUME_DATA.name} - Resume`,
+  title: `${RESUME_DATA.name} - Senior IT Operations Engineer`,
   description: RESUME_DATA.about,
   openGraph: {
     title: `${RESUME_DATA.name} - Resume`,
     description: RESUME_DATA.about,
     type: "profile",
     locale: "en_US",
-    images: [
-      {
-        url: "https://cv.jarocki.me/opengraph-image",
-        width: 1200,
-        height: 630,
-        alt: `${RESUME_DATA.name}'s profile picture`,
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: `${RESUME_DATA.name} - Resume`,
-    description: RESUME_DATA.about,
-    images: ["https://cv.jarocki.me/opengraph-image"],
+    images: [{ url: RESUME_DATA.avatarUrl, width: 400, height: 400 }],
   },
 };
 
-/**
- * Transform social links for command menu
- */
 function getCommandMenuLinks() {
   const links = [];
 
@@ -68,24 +54,47 @@ export default function ResumePage() {
           __html: JSON.stringify(structuredData),
         }}
       />
+
+      <PrintButton />
+      <ThemeToggle />
+
       <main
-        className="container relative mx-auto scroll-my-12 overflow-auto p-4 print:p-11 md:p-16"
+        className="container mx-auto max-w-5xl p-4 print:p-0 md:p-8 lg:p-12"
         id="main-content"
       >
         <div className="sr-only">
           <h1>{RESUME_DATA.name}&apos;s Resume</h1>
         </div>
 
-        <section
-          className="mx-auto w-full max-w-2xl space-y-8 bg-white print:space-y-4 dark:bg-background"
+        <div
+          className="flex flex-col gap-8 md:flex-row print:flex-row print:gap-4"
           aria-label="Resume Content"
         >
-          <div className="animate-fade-in" style={{ animationDelay: "0ms" }}>
-            <Header />
-          </div>
+          {/* Sidebar */}
+          <aside
+            className="w-full shrink-0 space-y-6 md:w-72 lg:w-80 print:w-44"
+            aria-label="Profile and Skills"
+          >
+            <div className="animate-fade-in" style={{ animationDelay: "0ms" }}>
+              <Header />
+            </div>
+            <div
+              className="animate-fade-in"
+              style={{ animationDelay: "100ms" }}
+            >
+              <Skills skills={RESUME_DATA.skills} />
+            </div>
+          </aside>
 
-          <div className="space-y-8 print:space-y-4">
-            <div className="animate-fade-in" style={{ animationDelay: "75ms" }}>
+          {/* Main content */}
+          <div
+            className="min-w-0 flex-1 space-y-8 print:space-y-4"
+            aria-label="Experience and Projects"
+          >
+            <div
+              className="animate-fade-in"
+              style={{ animationDelay: "75ms" }}
+            >
               <Summary summary={RESUME_DATA.summary} />
             </div>
             <div
@@ -104,16 +113,10 @@ export default function ResumePage() {
               className="animate-fade-in"
               style={{ animationDelay: "300ms" }}
             >
-              <Skills skills={RESUME_DATA.skills} />
-            </div>
-            <div
-              className="animate-fade-in"
-              style={{ animationDelay: "375ms" }}
-            >
               <Projects projects={RESUME_DATA.projects} />
             </div>
           </div>
-        </section>
+        </div>
 
         <nav className="print:hidden" aria-label="Quick navigation">
           <CommandMenu links={getCommandMenuLinks()} />

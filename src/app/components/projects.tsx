@@ -30,12 +30,12 @@ function ProjectLink({ title, link }: ProjectLinkProps) {
         href={link}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center gap-1 hover:underline"
+        className="inline-flex items-center gap-1 transition-colors hover:text-cyan-500"
         aria-label={`${title} project (opens in new tab)`}
       >
         {title}
         <span
-          className="size-1 rounded-full bg-green-500"
+          className="size-1 rounded-full bg-cyan-500"
           title="Active project indicator"
           aria-hidden="true"
         />
@@ -91,7 +91,7 @@ interface ProjectCardProps {
  */
 function ProjectCard({ title, description, tags, link }: ProjectCardProps) {
   return (
-    <Card className="flex h-full flex-col overflow-hidden border p-3">
+    <Card className="flex h-full flex-col overflow-hidden border p-3 transition-colors hover:border-cyan-500/50">
       <CardHeader>
         <div className="space-y-1">
           <CardTitle className="text-base">
@@ -122,18 +122,21 @@ interface ProjectsProps {
 export function Projects({ projects }: ProjectsProps) {
   return (
     <Section className="scroll-mb-16 print:space-y-4">
-      <h2 className="text-xl font-bold" id="side-projects">
-        Side projects
+      <h2
+        className="text-xs font-semibold uppercase tracking-wider text-foreground/50 print:text-[9px]"
+        id="side-projects"
+      >
+        Side Projects
       </h2>
       <div
-        className="-mx-3 grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3 print:grid-cols-3 print:gap-2"
+        className="-mx-3 grid grid-cols-1 gap-3 md:grid-cols-2 print:mx-0 print:grid-cols-2 print:gap-2"
         role="feed"
         aria-labelledby="side-projects"
       >
         {projects.map((project) => (
           <article
             key={project.title}
-            className="h-full transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm print:hover:translate-y-0 print:hover:shadow-none"
+            className="h-full transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm print:break-inside-avoid print:hover:translate-y-0 print:hover:shadow-none"
           >
             <ProjectCard
               title={project.title}

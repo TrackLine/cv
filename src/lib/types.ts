@@ -4,7 +4,7 @@ export type ResumeIcon =
   | React.ComponentType<React.SVGProps<SVGSVGElement>>
   | StaticImageData;
 
-export type IconType = "github" | "linkedin" | "x" | "globe" | "mail" | "phone";
+export type IconType = "github" | "linkedin" | "x" | "globe" | "mail" | "phone" | "telegram";
 
 export interface ResumeData {
   name: string;
@@ -38,7 +38,8 @@ export interface ResumeData {
     start: string;
     end: string | null;
     description: string;
-    highlights?: readonly string[];
+    responsibilities?: readonly string[];
+    achievements?: readonly string[];
   }>;
   skills: string[];
   projects: Array<{
